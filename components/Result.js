@@ -11,6 +11,7 @@ import QuitBtn from '../assets/images/quit_btn.svg'
 import ResultText from '../assets/images/Result_text.svg'
 import ColoredText from './ColoredText'
 import { useRoute } from '@react-navigation/native';
+import CustomOutput from './CustomOutput'
 
 export default Result = () => {
   
@@ -49,8 +50,18 @@ export default Result = () => {
   console.log(filteredArr)
 
   var output = filteredArr.map(function(item) {
-    return item[0] + Array(70).fill(' ').join('') + item[1];
-  }).join("\n ");
+    switch (item[0]) {
+      case 'ну':
+        return item[0] + Array(42 - item[0].length + item[0].length % 3 - item[0].length % 2).fill('').join('\t') + item[1];
+      case 'ведь':
+        return item[0] + Array(42 - item[0].length + item[0].length % 3 - item[0].length % 2).fill('').join('\t') + item[1];
+      case 'типа':
+        return item[0] + Array(40 - item[0].length + item[0].length % 3 - item[0].length % 2).fill('').join('\t') + item[1];
+      case 'кстати':
+        return item[0] + Array(40 - item[0].length + item[0].length % 3 - item[0].length % 2).fill('').join('\t') + item[1];
+      default:
+        return item[0] + Array(41 - item[0].length + item[0].length % 3 - item[0].length % 2).fill('').join('\t') + item[1];}
+  });
  
  console.log(output); 
 
@@ -108,24 +119,29 @@ export default Result = () => {
             Тембр голоса     
         </Text>
       </View>
-      <View style={styles.tembr_params}>
-              <Text  style={(newAverage <=5 ) || (newAverage >= 8) ? styles.yellow_tembr : styles.green_tembr}>{findTembr(newAverage)}</Text>
-      </View>
-      <View style={styles.words_params}>
-              <Text  style={(wordsPerMinute <=119 ) || (wordsPerMinute >= 200) ? styles.yellow_wpm : styles.green_wpm}>{wordsPerMinute + " " +findWord(wordsPerMinute)}</Text>
+      <View style={styles.paramsCont}>
+        <Text style={(wordsPerMinute <=119 ) || (wordsPerMinute >= 200) ? styles.yellow_wpm : styles.green_wpm}>{wordsPerMinute + " " +findWord(wordsPerMinute)}</Text>
+        <Text style={(newAverage <=5 ) || (newAverage >= 8) ? styles.yellow_tembr : styles.green_tembr}>{findTembr(newAverage)}</Text>
       </View>
       <View style={styles.wrongWordsCont}>
         <Text style={styles.wrongWords}>
             Употребление слов паразитов
         </Text>
-        <Text>{output}</Text>
+        <CustomOutput output={output[0]}/>
+        <CustomOutput output={output[1]}/>
+        <CustomOutput output={output[2]}/>
+        <CustomOutput output={output[3]}/>
+        <CustomOutput output={output[4]}/>
+        <CustomOutput output={output[5]}/>
+        <CustomOutput output={output[6]}/>
+        <CustomOutput output={output[7]}/>
       </View>
       <View style={styles.result}>
         <Text style={styles.uLevel}>
             Ваш уровень
         </Text>
         <ColoredText text='Преподаватель УрФУ!' color="#FF8A00" fontSize={19}/>
-        <CustomButton text="Начать заново" onPress={toTrain}/>
+        <CustomButton text="Начать заново" onPress={toTrain} margin={-5}/>
       </View>
     </View>
 )
@@ -140,47 +156,41 @@ const styles = StyleSheet.create({
       height: 100,
       paddingTop: 50
   },
+
   yellow_wpm: {
     color: '#FF7500',
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 18,
+    position: 'absolute',
+    left: -135,
     fontFamily: "OpenSans-BoldItalic",
-    paddingRight: 230,
   },
 
-  words_params: {
-    marginTop: -36,
-    alignSelf: "flex-end",
-    justifyContent: 'center',
-  },
   green_wpm: {
     color: '#0BAB00', 
-    textAlign: "center",
-    paddingRight: 230,
-    fontSize: 14,
-    paddingTop: -50,
+    textAlign: 'center',
+    fontSize: 18,
+    left: -135,
+    position: 'absolute',
     fontFamily: "OpenSans-BoldItalic",
-  },
-
-  tembr_params: {
-    paddingTop: 5,
-    alignSelf: "flex-end",
   },
 
   green_tembr: {
     color: '#0BAB00', 
     textAlign: "center",
-    paddingRight: 40,
-    fontSize: 14,
+    fontSize: 18,
+    position: 'absolute',
+    left: 5,
     fontFamily: "OpenSans-BoldItalic",
   },
 
   yellow_tembr: {
     color: '#FF7500',
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 18,
+    position: 'absolute',
+    left: 27,
     fontFamily: "OpenSans-BoldItalic",
-    paddingRight: 53,
   },
 
 
@@ -225,6 +235,12 @@ const styles = StyleSheet.create({
     paddingTop: 30
   },
 
+  paramsCont: {
+    backgroundColor: 'transeparent',
+    flexDirection: 'row',
+    paddingTop: 10
+  },
+
   speed: {
     color: 'rgba(207, 77, 79, 0.75)',
     fontSize: 21,
@@ -246,14 +262,15 @@ const styles = StyleSheet.create({
 
   wrongWordsCont: {
     backgroundColor: 'transeparent',
-    top: 30
+    top: 40
   },
 
   result: {
     backgroundColor: 'transeparent',
     flexDirection: 'column',
     alignItems:'center',
-    top: 415
+    top: 620,
+    position: 'absolute'
   },
 
   uLevel: {
@@ -261,5 +278,11 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontFamily: 'OpenSans',
     paddingBottom: 10
+  },
+
+  imgBgWW: {
+    width: 292,
+    height: 42,
+    top: 150,
   }
 })
