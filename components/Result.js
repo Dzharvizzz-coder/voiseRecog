@@ -13,7 +13,22 @@ import ColoredText from './ColoredText'
 import { useRoute } from '@react-navigation/native';
 import CustomOutput from './CustomOutput'
 
+
 export default Result = () => {
+
+  const ParasiteWords = () => {
+    var parasiteArr = []
+    for (let i = 0; i < output.length && i < 7; i++)
+      parasiteArr.push(
+      <View key={i}>
+      <CustomOutput output={output[i][0]} outputCount={output[i][1]}/>
+      </View>
+      )
+    return (<View>
+      {parasiteArr}
+      </View>
+      )
+  }
   
   const listOfBadWords = ['типа','ну','короче','кстати','скажем','блин',
   'реально','ведь', 'вообще', 'прикинь', 'достаточно', 'знаешь', 'так', 'собственно', 'допустим',
@@ -50,17 +65,7 @@ export default Result = () => {
   console.log(filteredArr)
 
   var output = filteredArr.map(function(item) {
-    switch (item[0]) {
-      case 'ну':
-        return item[0] + Array(42 - item[0].length + item[0].length % 3 - item[0].length % 2).fill('').join('\t') + item[1];
-      case 'ведь':
-        return item[0] + Array(42 - item[0].length + item[0].length % 3 - item[0].length % 2).fill('').join('\t') + item[1];
-      case 'типа':
-        return item[0] + Array(40 - item[0].length + item[0].length % 3 - item[0].length % 2).fill('').join('\t') + item[1];
-      case 'кстати':
-        return item[0] + Array(40 - item[0].length + item[0].length % 3 - item[0].length % 2).fill('').join('\t') + item[1];
-      default:
-        return item[0] + Array(41 - item[0].length + item[0].length % 3 - item[0].length % 2).fill('').join('\t') + item[1];}
+    return [item[0], item[1]]
   });
  
  console.log(output); 
@@ -127,18 +132,11 @@ export default Result = () => {
         <Text style={styles.wrongWords}>
             Употребление слов паразитов
         </Text>
-        <CustomOutput output={output[0]}/>
-        <CustomOutput output={output[1]}/>
-        <CustomOutput output={output[2]}/>
-        <CustomOutput output={output[3]}/>
-        <CustomOutput output={output[4]}/>
-        <CustomOutput output={output[5]}/>
-        <CustomOutput output={output[6]}/>
-        <CustomOutput output={output[7]}/>
+        <ParasiteWords/>
       </View>
       <View style={styles.result}>
         <Text style={styles.uLevel}>
-            Ваш уровень
+            Рекомендации
         </Text>
         <ColoredText text='Преподаватель УрФУ!' color="#FF8A00" fontSize={19}/>
         <CustomButton text="Начать заново" onPress={toTrain} margin={-5}/>
