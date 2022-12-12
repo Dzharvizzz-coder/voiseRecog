@@ -13,7 +13,6 @@ import ColoredText from './ColoredText'
 import { useRoute } from '@react-navigation/native';
 import CustomOutput from './CustomOutput'
 
-
 export default Result = () => {
 
   const ParasiteWords = () => {
@@ -68,8 +67,7 @@ export default Result = () => {
     return [item[0], item[1]]
   });
  
- console.log(output); 
-
+ console.log('Массив:', output); 
 
   const toTrain = () => {
     navigation.navigate('Train')
@@ -81,7 +79,29 @@ export default Result = () => {
     return Math.floor(numWords / timeToMinutes)
   }
   
+
   const wordsPerMinute = findWordsPerMinute(newCountWords, newTime)
+
+  const makeRecomendations = (wordsPerMinute, newAverage) => {
+    console.log(output.length)
+    if (wordsPerMinute  <= 119 && (newAverage >=5 && newAverage <=8) && output.length < 1) return 'Увеличьте скорость речи'
+    else if (wordsPerMinute  <= 119 && newAverage <=5 && output.length < 1) return 'Увеличьте скорость речи\nГоворите громче'
+    else if (wordsPerMinute  <= 119 && newAverage >=8 && output.length < 1) return 'Увеличьте скорость речи\nГоворите тише'
+    else if (wordsPerMinute  <= 119 && (newAverage >=8) && output.length >= 1) return 'Увеличьте скорость речи\nГоворите тише\nКонтролируйте употребление слов паразитов'
+    else if (wordsPerMinute  <= 119 && (newAverage <=5) && output.length >= 1) return 'Увеличьте скорость речи\nГоворите громче\nКонтролируйте употребление слов паразитов'
+    else if (wordsPerMinute  <= 119 && (newAverage >=5 && newAverage <=8) && output.length >= 1) return 'Увеличьте скорость речи\nКонтролируйте употребление слов паразитов'
+    else if (wordsPerMinute  >= 180 && (newAverage >=5 && newAverage <=8) && output.length < 1) return 'Не торопитесь во время доклада'
+    else if ((wordsPerMinute >= 119 && wordsPerMinute <= 180)  && newAverage <=5 && output.length < 1) return 'Говорите громче'
+    else if ((wordsPerMinute >= 119 && wordsPerMinute <= 180)  && newAverage >=8 && output.length < 1) return 'Говорите тише'
+    else if ((wordsPerMinute >= 119 && wordsPerMinute <= 180)  && (newAverage >=5 && newAverage <= 8) && output.length >= 1) return 'Контролируйте употребление слов паразитов'
+    else if ((wordsPerMinute >= 119 && wordsPerMinute <= 180)  && newAverage <=5 &&  output.length >= 1) return 'Говорите громче\nКонтролируйте употребление слов паразитов'
+    else if (wordsPerMinute >=180  && newAverage <=5 &&  output.length >= 1) return 'Не торопитесь во время доклада\nГоворите громче\nКонтролируйте употребление слов паразитов'
+    else if (wordsPerMinute >=180  && (newAverage >=5 && newAverage <= 8) &&  output.length < 1) return 'Не торопитесь во время доклада'
+    else if (wordsPerMinute >=180  && (newAverage >=5 && newAverage <= 8) &&  output.length >= 1) return 'Не торопитесь во время доклада\nКонтролируйте употребление слов паразитов'
+    else if (wordsPerMinute <= 119  && (newAverage >=5 && newAverage <= 8) &&  output.length >= 1) return 'Увеличьте скорость речи'
+    else return "Вы потрясающий спикер!"
+
+  }
 
   const findWord = (num) => {
     
@@ -125,7 +145,7 @@ export default Result = () => {
         </Text>
       </View>
       <View style={styles.paramsCont}>
-        <Text style={(wordsPerMinute <=119 ) || (wordsPerMinute >= 200) ? styles.yellow_wpm : styles.green_wpm}>{wordsPerMinute + " " +findWord(wordsPerMinute)}</Text>
+        <Text style={(wordsPerMinute <=119 ) || (wordsPerMinute >= 180) ? styles.yellow_wpm : styles.green_wpm}>{wordsPerMinute + " " +findWord(wordsPerMinute)}</Text>
         <Text style={(newAverage <=5 ) || (newAverage >= 8) ? styles.yellow_tembr : styles.green_tembr}>{findTembr(newAverage)}</Text>
       </View>
       <View style={styles.wrongWordsCont}>
@@ -138,8 +158,8 @@ export default Result = () => {
         <Text style={styles.uLevel}>
             Рекомендации
         </Text>
-        <ColoredText text='Преподаватель УрФУ!' color="#FF8A00" fontSize={19}/>
-        <CustomButton text="Начать заново" onPress={toTrain} style={styles.button}/>
+        <Text style={((newAverage >=5 ) && (newAverage <= 8) && (wordsPerMinute >=119 && wordsPerMinute <=180) && output.length < 1) ? styles.goodSpeaker : styles.textRecomendations}>{makeRecomendations(wordsPerMinute, newAverage)}</Text>
+        <CustomButton text="Начать заново" onPress={toTrain} margin={-15}/>
       </View>
     </View>
 )
@@ -153,6 +173,23 @@ const styles = StyleSheet.create({
       alignItems:'center',
       height: 100,
       paddingTop: 50
+  },
+
+  goodSpeaker: {
+    color: '#0BAB00',
+    fontSize: 18,
+    fontFamily: 'OpenSans-BoldItalic',
+    paddingBottom: 10,
+    textAlign: "center",
+  },
+
+
+  textRecomendations: {
+    color: 'red',
+    fontSize: 18,
+    fontFamily: 'OpenSans-BoldItalic',
+    paddingBottom: 10,
+    textAlign: "center",
   },
 
   yellow_wpm: {
@@ -282,5 +319,5 @@ const styles = StyleSheet.create({
     width: 292,
     height: 42,
     top: 150,
-  },
+  }
 })
