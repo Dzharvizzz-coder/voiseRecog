@@ -139,7 +139,7 @@ export default Result = () => {
             Рекомендации
         </Text>
         <ColoredText text='Преподаватель УрФУ!' color="#FF8A00" fontSize={19}/>
-        <CustomButton text="Начать заново" onPress={toTrain} margin={-5}/>
+        <CustomButton text="Начать заново" onPress={toTrain} style={styles.button}/>
       </View>
     </View>
 )
