@@ -20,7 +20,7 @@ export default Result = () => {
     for (let i = 0; i < output.length && i < 7; i++)
       parasiteArr.push(
       <View key={i}>
-      <CustomOutput output={output[i][0]} outputCount={output[i][1]}/>
+      <CustomOutput output={output[i][0]} outputCount={output[i][1]} margin={3}/>
       </View>
       )
     return (<View>
