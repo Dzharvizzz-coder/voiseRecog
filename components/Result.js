@@ -282,5 +282,5 @@ const styles = StyleSheet.create({
     width: 292,
     height: 42,
     top: 150,
-  }
+  },
 })
