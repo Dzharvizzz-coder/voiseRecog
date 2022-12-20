@@ -28,7 +28,7 @@ const Statistics = () => {
             <Stat_text marginBottom={10}/>
             <View style={styles.replace}>
             <CustomOutputStat output={'Количество тренировок'} outputCount={'12'} margin={4}/>
-            <CustomOutputStat output={'Средняя скорость речи'} outputCount={''} margin={4}/>
+            <CustomOutputStat output={'Средняя скорость речи'} outputCount2={'10 слов'} margin={4}/>
             <CustomOutputStat output={'Средний тембр речи'} margin={4} image={tembrImgGreen}/>
             <CustomOutputStat output={'Процент употребления слов паразитов'} outputCount={''} margin={4}/>
             </View>
